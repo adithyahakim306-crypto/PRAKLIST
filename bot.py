@@ -4,6 +4,7 @@ import csv
 import asyncio
 import logging
 from io import BytesIO
+import shutil
 
 from dotenv import load_dotenv
 
@@ -47,6 +48,9 @@ logger = logging.getLogger(__name__)
 
 TELEGRAM_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 GROUPS_PATH = os.environ.get("GROUPS_PATH", "groups.csv")
+if not os.path.exists(GROUPS_PATH):
+    os.makedirs(os.path.dirname(GROUPS_PATH) or ".", exist_ok=True)
+    shutil.copy("groups.csv", GROUPS_PATH)
 
 GROUPS = load_groups(GROUPS_PATH)
 
